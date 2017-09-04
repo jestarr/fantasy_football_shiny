@@ -56,7 +56,8 @@ server=function(input, output, session) {
                                  ),rownames= FALSE)
     output$team_table = DT::renderDataTable(my_players)
     output$sum=renderUI({
-      HTML(paste("<b><h5>Total Team Points:",  round(sum(team$df$points),2),"<br>Lower End Team Points: ",round(sum(team$df$lower),2), "<br>Upper End Team Points: ",round(sum(team$df$upper),2),"</h5></b>" ))
+      HTML(paste("<b><h5>Total Team Points:",  round(sum(team$df$points),2),"<br><font color='red'>Lower End Team Points: ",round(sum(team$df$lower),2), "</font><br><font color='green'>Upper End Team Points: ",
+        round(sum(team$df$upper),2),"</font></h5></b>" ))
     })
    
   })

@@ -52,7 +52,7 @@ ui = fluidPage(theme = shinytheme("yeti"),tags$head(tags$link(rel = "stylesheet"
                     actionButton("button1", "Submit"),
                     helpText("Graph Type"),
                     selectInput("starter_type",choices=c("Starter","Bench"),selected="Starter",label=NULL),
-                    helpText("For starter graphs look for minimum risk and high lower predictive bound. For bench graphs look for high upper bound and high VOR.")
+                    helpText("For starter graphs look for minimum risk and high lower predictive bound. For bench graphs look for high upper bound and high VOR. Be around 1500 points to consider that a good draft.")
   ),column(width=8,h4("My Team"),hr(),
            DT::dataTableOutput('team_table'),
            htmlOutput("sum"))),
