@@ -13,22 +13,6 @@ rankings <- subset(rankings,position == 'QB' | position == 'DST' |
                      position == 'K' )
 player_ids = as.character(rankings$player)
 rankings$player=as.character(rankings$player)
-delete_player=function(file, player){
-  file[file$player!=player,]
-}
-get_starter=function(file,position){
-  subs=file[file$position==position,]
-  ##low risk high floor
-  plot_ly(subs, x = ~risk, y = ~lower, color = ~dropoff,type='scatter',
-          size = ~points, text = ~paste("Name: ", player,"<br>VOR: ",vor,"<br>Points: ", points),mode = "markers")
-}
-
-get_bench=function(file,position){
-  ##high vor & upper
-  subs=file[file$position==position,]
-  plot_ly(subs, x = ~vor, y = ~upper, color = ~dropoff,
-          size = ~points, text = ~paste("Name: ", player,"<br> VOR: ",vor))
-}
 
 
 ui = fluidPage(theme = shinytheme("yeti"),tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "icomoon.css"),tags$style(
@@ -43,6 +27,7 @@ ui = fluidPage(theme = shinytheme("yeti"),tags$head(tags$link(rel = "stylesheet"
        opacity: 0.5;
        }"))),navbarPage(title = "Fantasy Football Quick Analysis",tabPanel("Main",
     fluidRow(column(width=4,
+
                     h2("Draft Order Inputs"),
                     hr(),
                     helpText("Drafted Player from other Team"),
@@ -64,7 +49,10 @@ ui = fluidPage(theme = shinytheme("yeti"),tags$head(tags$link(rel = "stylesheet"
                                         tokens=c(1:length(player_ids)),
                                         template = HTML("<p class='repo-language'>{{info}}</p> <p class='repo-name'>{{name}}</p>")
                     ),
-                    actionButton("button1", "Submit")
+                    actionButton("button1", "Submit"),
+                    helpText("Graph Type"),
+                    selectInput("starter_type",choices=c("Starter","Bench"),selected="Starter",label=NULL),
+                    helpText("For starter graphs look for minimum risk and high lower predictive bound. For bench graphs look for high upper bound and high VOR.")
   ),column(width=8,h4("My Team"),hr(),
            DT::dataTableOutput('team_table'),
            htmlOutput("sum"))),
