@@ -50,7 +50,7 @@ server=function(input, output, session) {
     ##user points try to get to 1500
     my_players =  datatable(team$df,style = 'bootstrap',extensions = 'FixedColumns',
                                  options = list(lengthChange= FALSE,
-                                   
+                                   dom = 't',
                                    scrollX = TRUE,
                                    fixedColumns = TRUE
                                  ),rownames= FALSE)
