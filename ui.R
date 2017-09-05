@@ -25,7 +25,11 @@ ui = fluidPage(theme = shinytheme("yeti"),tags$head(tags$link(rel = "stylesheet"
         .no-underline:hover {
         text-decoration: none;
        opacity: 0.5;
-       }"))),navbarPage(title = "Fantasy Football Quick Analysis",tabPanel("Main",
+       }
+       .repo-name {
+        font-size: 13px !important;
+       }
+       "))),navbarPage(title = "Fantasy Football Quick Analysis",tabPanel("Main",
     fluidRow(column(width=4,
 
                     h2("Draft Order Inputs"),
