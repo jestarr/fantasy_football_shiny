@@ -86,6 +86,50 @@ server=function(input, output, session) {
                                  ),rownames= FALSE)
     output$tbl = DT::renderDataTable(all_the_players)
   })
+
+  observeEvent(input$button3,{
+    write.csv(file=paste0("gaes/",input$teamname,"_projections.csv"),row.names=F,as.data.frame(cbind(teamname=input$teamname,total=round(sum(team$df$points),2),lowend=round(sum(team$df$lower),2),highend=round(sum(team$df$upper),2))))
+    })
+  observe({
+    file_names <- dir('gaes') #where you have your files
+
+    teams <- do.call(rbind,lapply(paste0('gaes/',file_names),read.csv))
+    teams_1 =  datatable(teams,style = 'bootstrap',extensions = 'FixedColumns',
+                                 options = list(lengthChange= FALSE,
+                                  order=list(1,"desc"),
+                                   pageLength = 12,
+                                   dom = 't',
+                                   scrollX = TRUE,
+                                   fixedColumns = TRUE
+                                 ),rownames= FALSE,colnames = c('Team Name', 'Expected Points', 'Lower End', 'Higher End'))
+    output$teams_table = DT::renderDataTable(teams_1)
+    x <- list(
+        title = "Expected Points"
+      )
+    y <- list(
+      title="",
+      tickangle = -25,  
+      tickfont = list(size = 6.5,
+      color = "grey")
+    )
+
+    output$gaes_plot <- renderPlotly({plot_ly(data = teams, 
+      x = ~total, 
+      y = ~teamname, 
+      type = 'scatter', 
+      mode = 'markers',
+      marker = list(size = 10),
+      text = ~paste("Team Name: ", teamname, "<br>Total Expected Points: ", total),
+      color=~teamname,
+        hoverinfo = 'text',
+        error_x = list(              type = "data",
+                symmetric = FALSE,
+                array = c(abs(teams$highend-teams$total)),
+                arrayminus = c(teams$total-teams$lowend)))%>%
+      layout(showlegend = FALSE) %>% 
+      config(displayModeBar = F) %>%
+      layout(xaxis = x, yaxis = y)})
+    })
   
 
   
