@@ -56,7 +56,8 @@ ui = fluidPage(theme = shinytheme("yeti"),tags$head(tags$link(rel = "stylesheet"
                     actionButton("button1", "Submit"),
                     helpText("Graph Type"),
                     selectInput("starter_type",choices=c("Starter","Bench"),selected="Starter",label=NULL),
-                    helpText("For starter graphs look for minimum risk and high lower predictive bound. For bench graphs look for high upper bound and high VOR. Be around 1500 points to consider that a good draft.")
+                    helpText("For starter graphs look for minimum risk and high lower predictive bound. For bench graphs look for high upper bound and high VOR. Be around 1500 points to consider that a good draft."),
+                    textInput("teamname","Team Name"),actionButton("button3","Submit Team")
   ),column(width=8,h4("My Team"),hr(),
            DT::dataTableOutput('team_table'),
            htmlOutput("sum"))),
@@ -83,7 +84,9 @@ ui = fluidPage(theme = shinytheme("yeti"),tags$head(tags$link(rel = "stylesheet"
        <font size='1px'>
        Data used from http://fantasyfootballanalytics.net</font>
        </footer>")
-       )
+       ),
+       tabPanel("GAES League",h2("GAES Post Draft Analysis"),hr(),
+        fluidRow(column(width=6,DT::dataTableOutput('teams_table')),column(width=6,plotlyOutput("gaes_plot", height='450px'))))
   )
   
   )
